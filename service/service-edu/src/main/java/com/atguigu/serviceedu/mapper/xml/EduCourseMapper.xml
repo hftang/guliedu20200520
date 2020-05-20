@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.serviceedu.mapper.EduCourseMapper">
+
+    <select id="getPublishInfos" resultType="com.atguigu.serviceedu.entity.vo.CoursePublishVo">
+
+    select course.id,
+				course.title,
+				course.cover,
+				course.lesson_num as lessonNum,
+				sub.title as subjectLevelOne,
+				sub2.title as subjectLevelTwo,
+				teacher.`name` as teacherName,
+				course.price as price
+
+
+	from edu_course course
+				LEFT JOIN edu_teacher teacher on course.teacher_id=teacher.id
+
+				LEFT JOIN edu_subject sub on course.subject_parent_id=sub.id
+				LEFT JOIN edu_subject sub2 on course.subject_id=sub2.id
+
+				LEFT JOIN edu_course_description course_desc on course.id=course_desc.id
+
+	WHERE course.id = #{courseId}
+
+    </select>
+
+
+
+	<select id="queryBaseCouserInfo" resultType="com.atguigu.serviceedu.entity.vo.CourseWebVo">
+
+		  select
+				course.id,
+				course.title,
+				course.cover,
+				course.price as price,
+				course.buy_count as buyCount,
+				course.view_count as viewCount,
+				course_desc.description as description,
+				course.lesson_num as lessonNum,
+
+				sub.id as subjectLevelOneId,
+				sub2.id as subjectLevelTwoId,
+				sub.title as subjectLevelOne,
+				sub2.title as subjectLevelTwo,
+
+
+				teacher.name as teacherName,
+				teacher.id as	teacherId,
+				teacher.name	as teacherName,
+				teacher.intro as intro,
+				teacher.avatar as avatar
+
+	from edu_course course
+
+				LEFT JOIN edu_teacher teacher on course.teacher_id=teacher.id
+
+				LEFT JOIN edu_subject sub on course.subject_parent_id=sub.id
+				LEFT JOIN edu_subject sub2 on course.subject_id=sub2.id
+
+				LEFT JOIN edu_course_description course_desc on course.id=course_desc.id
+
+	WHERE course.id = #{couseid}
+
+
+
+	</select>
+
+</mapper>
